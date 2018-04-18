@@ -1,0 +1,221 @@
+version: "3"
+services:
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+    ports:
+      - "4160"
+      - "4161"
+    networks:
+      - hypercheck
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4150"
+      - "4151"
+    networks:
+      - hypercheck
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4171:4171"
+    networks:
+      - hypercheck
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - hypercheck
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  api:
+    image: hyperscale/hypercheck-api
+    networks:
+      - hypercheck
+    depends_on:
+      - nsqlookupd
+      - redis
+      - nsqd
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      labels:
+        traefik.docker.network: traefik-net
+        traefik.enable: 'true'
+        traefik.frontend.rule: Host:api.check.domain.tld
+        traefik.frontend.entryPoints: https
+        traefik.port: 80
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+  manager:
+    image: hyperscale/hypercheck-manager
+    networks:
+      - hypercheck
+    depends_on:
+      - api
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      labels:
+        traefik.docker.network: traefik-net
+        traefik.enable: 'true'
+        traefik.frontend.rule: Host:check.domain.tld
+        traefik.frontend.entryPoints: https
+        traefik.port: 80
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+  scheduler:
+    image: hyperscale/hypercheck-scheduler
+    networks:
+      - hypercheck
+    depends_on:
+      - api
+      - nsqlookupd
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+  agent-http:
+    image: hyperscale/hypercheck-http-agent
+    networks:
+      - hypercheck
+    depends_on:
+      - api
+      - nsqlookupd
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+  agent-ssl:
+    image: hyperscale/hypercheck-ssl-agent
+    networks:
+      - hypercheck
+    depends_on:
+      - api
+      - nsqlookupd
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+  agent-dns:
+    image: hyperscale/hypercheck-dns-agent
+    networks:
+      - hypercheck
+    depends_on:
+      - api
+      - nsqlookupd
+    environment:
+      - PORT=80
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+
+networks:
+  hypercheck:
+
+
