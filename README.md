@@ -1,17 +1,17 @@
-Hyperpaas ![Last release](https://img.shields.io/github/release/hyperscale/hyperpaas.svg) 
+Hypercheck ![Last release](https://img.shields.io/github/release/hyperscale/hypercheck.svg)
 =========
 
-![HyperPaaS logo](https://cdn.rawgit.com/hyperscale/hyperpaas/master/_resources/hyperpaas.svg "HyperPaaS logo")
+![hypercheck logo](https://cdn.rawgit.com/hyperscale/hypercheck/master/_resources/hypercheck.svg "hypercheck logo")
 
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/hyperscale/hyperpaas)](https://goreportcard.com/report/github.com/hyperscale/hyperpaas)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hyperscale/hypercheck)](https://goreportcard.com/report/github.com/hyperscale/hypercheck)
 
 | Branch  | Status | Coverage |
 |---------|--------|----------|
-| master  | [![Build Status](https://img.shields.io/travis/hyperscale/hyperpaas/master.svg)](https://travis-ci.org/hyperscale/hyperpaas) | [![Coveralls](https://img.shields.io/coveralls/hyperscale/hyperpaas/master.svg)](https://coveralls.io/github/hyperscale/hyperpaas?branch=master) |
-| develop | [![Build Status](https://img.shields.io/travis/hyperscale/hyperpaas/develop.svg)](https://travis-ci.org/hyperscale/hyperpaas) | [![Coveralls](https://img.shields.io/coveralls/hyperscale/hyperpaas/develop.svg)](https://coveralls.io/github/hyperscale/hyperpaas?branch=develop) |
+| master  | [![Build Status](https://img.shields.io/travis/hyperscale/hypercheck/master.svg)](https://travis-ci.org/hyperscale/hypercheck) | [![Coveralls](https://img.shields.io/coveralls/hyperscale/hypercheck/master.svg)](https://coveralls.io/github/hyperscale/hypercheck?branch=master) |
+| develop | [![Build Status](https://img.shields.io/travis/hyperscale/hypercheck/develop.svg)](https://travis-ci.org/hyperscale/hypercheck) | [![Coveralls](https://img.shields.io/coveralls/hyperscale/hypercheck/develop.svg)](https://coveralls.io/github/hyperscale/hypercheck?branch=develop) |
 
-HyperPaaS a Cloud Application Platform based on Docker Swarm.
+Hypercheck is a fonctional monitoring platform.
 
 Install
 -------
@@ -19,32 +19,32 @@ Install
 ### Docker
 
 ```shell
-docker pull hyperscale/hyperpaas
+docker pull hyperscale/hypercheck
 ```
 
 ### MacOS
 
-Install dependencies with glide:
+Install dependencies with dep:
 ```shell
-glide install
+dep ensure
 ```
 
-Build hyperpaas:
+Build hypercheck:
 ```shell
 make build
 ```
 
-Run hyperpaas
+Run hypercheck
 ```shell
-./hyperpaas
+./hypercheck
 ```
 
 Documentation
 -------------
 
-[HperPaaS API Reference](https://hyperscale.github.io/hyperpaas/)
+[Hpercheck API Reference](https://hyperscale.github.io/hypercheck/)
 
 License
 -------
 
-HperPaaS is licensed under [the MIT license](LICENSE.md).
+Hpercheck is licensed under [the MIT license](LICENSE.md).
