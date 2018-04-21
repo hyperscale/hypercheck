@@ -49,7 +49,7 @@ build-hypercheck-api: $(FILES)
 	@CGO_ENABLED=0 go build ./cmd/hypercheck-api/
 
 run-hypercheck-api: build-hypercheck-api
-	@./hypercheck-api
+	@./hypercheck-api -config etc/hypercheck-api/config.yml
 
 build-hypercheck-dns-agent: $(FILES)
 	@echo "Building hypercheck-dns-agent..."

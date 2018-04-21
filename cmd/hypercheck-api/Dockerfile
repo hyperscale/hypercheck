@@ -29,7 +29,7 @@ WORKDIR /opt/hypercheck/
 COPY --from=server-api /go/src/github.com/hyperscale/hypercheck/hypercheck-api .
 HEALTHCHECK --interval=5s --timeout=2s CMD curl -f http://localhost:${PORT}/health > /dev/null 2>&1 || exit 1
 EXPOSE ${PORT}
-VOLUME /var/lib/hypercheck
+VOLUME /var/lib/hypercheck-api
 ENTRYPOINT ["/opt/hypercheck/hypercheck-api"]
 
 # Metadata

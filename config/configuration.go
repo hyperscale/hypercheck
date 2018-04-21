@@ -5,6 +5,7 @@
 package config
 
 import (
+	"github.com/euskadi31/go-server/authentication"
 	"github.com/spf13/viper"
 )
 
@@ -14,6 +15,7 @@ type Configuration struct {
 	Server   *ServerConfiguration
 	Docker   *DockerConfiguration
 	Database *DatabaseConfiguration
+	Auth     *authentication.Configuration
 }
 
 // NewConfiguration constructor
@@ -37,6 +39,9 @@ func NewConfiguration(options *viper.Viper) *Configuration {
 		},
 		Database: &DatabaseConfiguration{
 			Path: options.GetString("database.path"),
+		},
+		Auth: &authentication.Configuration{
+			Realm: options.GetString("auth.realm"),
 		},
 	}
 }
